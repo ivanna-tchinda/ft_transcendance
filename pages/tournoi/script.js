@@ -1,6 +1,7 @@
 let loginForm = document.getElementById("loginForm");
 let launchTornament = document.getElementById("btn-launch-game");
 let id = 0;
+let = nb_games = 0;
 
 function checkInput(username)
 {
@@ -43,7 +44,7 @@ function addElement(element)
     
     username.appendChild(newUser);
 
-    newUser.setAttribute("id", id);
+    newUser.setAttribute("id", "joueur_" + id);
     newUser.setAttribute("className", element);
 }
 
@@ -53,31 +54,54 @@ launchTornament.addEventListener("click", (e) => {
         alert("We have to wait for another player to participate");
     else
     {
-        let playersArr = [];
-        let it = 0;
-        while (it < id) {
-            playersArr.push(it);
-            console.log("i added: " + document.getElementById(it).innerHTML);
-            it++;
-        }
-        console.log(playersArr);
-        var player1 = generatePlayer(playersArr);
-        console.log("delete: " + player1);
-        playersArr.splice(player1, 1);
-        console.log(playersArr);
-        var player2 = generatePlayer(playersArr);
-        console.log("delete: " + player2);
-        playersArr.splice(player2, 1);
-        console.log(playersArr);
-
-        console.log(document.getElementById(player1).innerHTML + " is going to confront " + document.getElementById(player2).innerHTML);
-        
+      if(id < 2)
+      {
+        alert("We have to wait for another player to participate");
+        return;
+      }
+      let playersArr = [];
+      let it = 0;
+      while (it < id) {
+          playersArr.push(it);
+          it++;
+      }
+      while(playersArr.length)
+      {
+        var player1 = generatePlayer(playersArr, id);
+        playersArr.splice(playersArr.indexOf(player1), 1);
+        var player2 = generatePlayer(playersArr, id);
+        playersArr.splice(playersArr.indexOf(player2), 1);
+        console.log(document.getElementById("joueur_" + player1).innerHTML + " is going to confront " + document.getElementById("joueur_" + player2).innerHTML);
+        nb_games++;
+      } 
     }
+    if(nb_games)
+      begin_tornaments();
 })
 
 var namePlayer = "";
 
-function generatePlayer(arr){
-    console.log("length: " + arr.length);
-    return(Math.floor(Math.random() * arr.length));
+function isInArr(arr, num)
+{
+  var i = 0;
+  while(arr[i] != null)
+  {
+    if(arr[i] == num)
+      return 1;
+    i++;
+  }
+  return(0);
+}
+
+function generatePlayer(arr, id){
+    var num = Math.floor(Math.random() * id);
+    while(isInArr(arr, num) == 0)
+      num = Math.floor(Math.random() * id);;
+    return(num);
+}
+
+function begin_tornaments() {
+  const element = document.getElementById("div-tournoi");
+  element.remove();
+
 }
