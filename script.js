@@ -1,21 +1,30 @@
 window.onload = function ()
 {
     const path = window.location.pathname.split("/");
-    console.log(path);
-    switch (path[9]) {
+    console.log(path[1]);
+    switch (path[1]) {
         case "jeu":
         {
+            console.log("path " + path);
             loadPage("jeu");
             break;
         }
         case "tournoi":
         {
+            console.log("path " + path);
             loadPage("tournoi");
             break;
         }
-        case "ordinateur":
+        case "computer":
         {
-            loadPage("ordinateur");
+            console.log("path " + path);
+            loadPage("computer");
+            break;
+        }
+        default:
+        {
+            console.log("path " + path);
+            //loadPage("home");
             break;
         }
     }
@@ -26,24 +35,25 @@ document.querySelectorAll(".link").forEach((item) =>
     item.addEventListener("click", function()
     {
         const path = item.getAttribute("value");
-        console.log(path);
+        console.log("value: " + path);
         loadPage(path);
         if(path == "")
         {
             window.history.pushState("", "", "/");
             return;
         }
-        window.history.pushState("", "", "/");
+        window.history.pushState("", "", "pages/" + path + "/index.html");
     });
 });
 
-function loadPage($path)
+function loadPage(path)
 {
-    if($path == "")
+    console.log("p: " + path);
+    if(path == "")
         return;
     const container = document.getElementById("container");
     const request = new XMLHttpRequest();
-    request.open("GET", "file:///mnt/nfs/homes/itchinda/Documents/Projets/ft_transcendance/pages/" + $path + ".html");
+    request.open("GET", "pages/" + path + "/index.html");
     request.send();
     request.onload = function()
     {

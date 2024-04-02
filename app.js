@@ -1,29 +1,48 @@
-// Import the http module
 const http = require('http');
 const fs = require('fs');
-const port = 3000;
+const path = require('path');
 
-// Create a server object
-const server = http.createServer(function(req, res){
-  // Write a response header
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  fs.readFile('./index.html', 'utf-8', function(error, data){
-    if(error)
-    {
-      res.writeHead(404);
-      res.write('Error: File Not Found')
+const port = 8000;
+
+const server = http.createServer(function(req, res) {
+    let filePath = '.' + req.url;
+
+    if (filePath === './') {
+        filePath = './index.html';
     }
-    else
-      res.write(data);
-    res.end()
-  })
+
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const contentType = {
+        '.html': 'text/html',
+        '.css': 'text/css',
+        '.js': 'text/javascript',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpg',
+        '.gif': 'image/gif',
+        '.svg': 'image/svg+xml',
+    }[extname] || 'application/octet-stream';
+
+    fs.readFile(filePath, 'utf-8', function(error, content) {
+        if (error) {
+            if (error.code == 'ENOENT') {
+                res.writeHead(404);
+                res.end('Error: File Not Found');
+            } else {
+                res.writeHead(500);
+                res.end('Error: Internal Server Error');
+            }
+        } else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(content, 'utf-8');
+        }
+    });
 });
 
-// Listen on port 3000
 server.listen(port, function(error) {
-  if(error)
-    console.log("Something went wrong", error)
-  else
-    console.log('Server running at http://localhost:3000');
+    if (error) {
+        console.log("Something went wrong", error);
+    } else {
+        console.log('Server running at http://localhost:8000');
+    }
 });
-

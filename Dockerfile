@@ -4,14 +4,15 @@ FROM node:14
 # Set the working directory
 #WORKDIR /usr/src/app
 WORKDIR /sgoinfre
+RUN npm install
+
 
 # Copy the app.js file
-COPY app.js .
-COPY index.html .
-COPY script.js .
+COPY . .
+COPY .htaccess .
 
 # Expose the port that the app listens on
-EXPOSE 3000
+EXPOSE 8000
 
 # Define the command to run the app
 

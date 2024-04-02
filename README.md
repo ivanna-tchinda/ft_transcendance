@@ -2,7 +2,7 @@
 
 #Lancer le container
 1) docker-compose up --build
-2) Ouvrir une page ggchrome -> http://localhost:3000
+2) Ouvrir une page ggchrome -> http://localhost:8000
 
 #Supprimer le container
 1) docker ps

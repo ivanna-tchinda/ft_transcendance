@@ -142,6 +142,7 @@ function stop() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    console.log("here");
     canvas = document.getElementById('canvas');
     game = {
         player: {

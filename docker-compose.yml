@@ -4,4 +4,4 @@ services: # Definition of services to run
   web:
     build: . # Build the image from the Dockerfile in the current directory
     ports: # Configuration of ports to expose
-      - "3000:3000" # Forward port 3000 from the container to port 3000 on the host
+      - "8000:8000" # Forward port 8000 from the container to port 8000 on the host
