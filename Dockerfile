@@ -9,7 +9,6 @@ RUN npm install
 
 # Copy the app.js file
 COPY . .
-COPY .htaccess .
 
 # Expose the port that the app listens on
 EXPOSE 8000

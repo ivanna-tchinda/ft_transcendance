@@ -6,3 +6,6 @@ ul {
 li {
     display: inline-block;
 }
+body {
+    background-color: aquamarine;
+}

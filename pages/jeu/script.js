@@ -1,5 +1,9 @@
 'use strict';
 
+document.addEventListener("DOMContentLoaded", (event) => {
+    console.log("loaded");
+})
+
 var canvas;
 var game;
 var anim;
