@@ -1,4 +1,4 @@
-window.onload = function ()
+/*window.onload = function ()
 {
     const path = window.location.pathname.split("/");
     console.log("path: " + path);
@@ -28,10 +28,10 @@ window.onload = function ()
             break;
         }
     }
-}
+}*/
 
 
-document.querySelectorAll(".link").forEach((item) => 
+/*document.querySelectorAll(".link").forEach((item) => 
 {
     item.addEventListener("click", function()
     {
@@ -53,9 +53,9 @@ document.querySelectorAll(".link").forEach((item) =>
         console.log(document.documentElement.innerHTML);
    
     });
-});
+});*/
 
-function loadPage(path)
+/*function loadPage(path)
 {
     console.log("page loading");
     if(path == "")
@@ -85,4 +85,4 @@ function loadPage(path)
     
     // }  
 
-}
+}*/

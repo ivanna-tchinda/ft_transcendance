@@ -1,10 +1,5 @@
 'use strict';
 
-document.addEventListener("DOMContentLoaded", (event) => {
-    console.log("loaded");
-})
-
-var canvas;
 var game;
 var anim;
 
@@ -12,7 +7,59 @@ const PLAYER_HEIGHT = 100;
 const PLAYER_WIDTH = 5;
 const MAX_SPEED = 12;
 
+
+loadPage();
+
+function loadPage()
+{
+    console.log("page loading");
+    const request = new XMLHttpRequest();
+    const scriptRequest = new XMLHttpRequest();
+    const container = document.getElementById("container");
+    request.open("GET", "pages/jeu/index.html");
+    request.send();
+    request.onload = function()
+    {
+        if(request.status == 200)
+            container.innerHTML = request.responseText;
+            setTimeout(function() {
+                const canvas = document.getElementById("canvas");
+                if (canvas) {
+                    startCanva();
+                }
+            }, 100);
+
+    }  
+    
+}
+
+function startCanva() {
+    
+    game = {
+        player: {
+            score: 0
+        },
+        computer: {
+            score: 0,
+            speedRatio: 0.75
+        },
+        ball: {
+            r: 5,
+            speed: {}
+        }
+    };
+    draw();
+    reset();
+    // Mouse move event
+    document.addEventListener('keydown', playerMove);
+    document.addEventListener('keydown', player2Move);
+    // Mouse click event
+    document.querySelector('#start-game').addEventListener('click', play);
+    document.querySelector('#stop-game').addEventListener('click', stop);
+}
+
 function draw() {
+    const canvas = document.getElementById("canvas");
     var context = canvas.getContext('2d');
 
     // Draw field
@@ -48,6 +95,7 @@ function changeDirection(playerPosition) {
 
 function playerMove(event) 
 {
+    const canvas = document.getElementById("canvas");
     if(event.code == 'ArrowDown' && game.player.y < canvas.height - PLAYER_HEIGHT)
         game.player.y += 20;
     else if(event.code == 'ArrowUp' && game.player.y > 0)
@@ -57,6 +105,7 @@ function playerMove(event)
 
 function player2Move(event) 
 {
+    const canvas = document.getElementById("canvas");
     if(event.code == 'KeyS' && game.computer.y < canvas.height - PLAYER_HEIGHT)
         game.computer.y += 20;
     else if(event.code == 'KeyW' && game.computer.y > 0)
@@ -94,6 +143,7 @@ function collide(player) {
 }
 
 function ballMove() {
+    const canvas = document.getElementById("canvas");
     // Rebounds on top and bottom
     if (game.ball.y > canvas.height || game.ball.y < 0) {
         game.ball.speed.y *= -1;
@@ -119,6 +169,7 @@ function play() {
 }
 
 function reset() {
+    const canvas = document.getElementById("canvas");
     // Set ball and players to the center
     game.ball.x = canvas.width / 2;
     game.ball.y = canvas.height / 2;
@@ -132,9 +183,7 @@ function reset() {
 
 function stop() {
     cancelAnimationFrame(anim);
-
     reset();
-
     // Init score
     game.computer.score = 0;
     game.player.score = 0;
@@ -144,31 +193,3 @@ function stop() {
 
     draw();
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    console.log("here");
-    canvas = document.getElementById('canvas');
-    game = {
-        player: {
-            score: 0
-        },
-        computer: {
-            score: 0,
-            speedRatio: 0.75
-        },
-        ball: {
-            r: 5,
-            speed: {}
-        }
-    };
-
-    reset();
-
-    // Mouse move event
-    document.addEventListener('keydown', playerMove);
-    document.addEventListener('keydown', player2Move);
-
-    // Mouse click event
-    document.querySelector('#start-game').addEventListener('click', play);
-    document.querySelector('#stop-game').addEventListener('click', stop);
-});
