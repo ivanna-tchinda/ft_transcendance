@@ -1,9 +1,10 @@
 let id = 0;
-let = nb_games = 0;
+let nb_games = 0;
 let launchTornament;
 let username;
 let btn_participate;
 let loginForm;
+let playersArr2;
 
 loadPage();
 
@@ -49,17 +50,6 @@ function checkInput(username)
     return 0;
 }
 
-function startPart(){
-
-  console.log("button");/*
-  launchTornament.addEventListener("click", (e) => {
-    e.preventDefault();
-    
-})
-      */
-
-}
-
 function launchTourn(e){
   e.preventDefault();
   if(id % 2 == 1)
@@ -77,6 +67,7 @@ function launchTourn(e){
         playersArr.push(it);
         it++;
     }
+    playersArr2 = [];
     while(playersArr.length)
     {
       var player1 = generatePlayer(playersArr, id);
@@ -84,6 +75,8 @@ function launchTourn(e){
       var player2 = generatePlayer(playersArr, id);
       playersArr.splice(playersArr.indexOf(player2), 1);
       console.log(document.getElementById("joueur_" + player1).innerHTML + " is going to confront " + document.getElementById("joueur_" + player2).innerHTML);
+      playersArr2.push(["player" + nb_games + "_0"], document.getElementById("joueur_" + player1).innerHTML);
+      playersArr2.push(["player" + nb_games + "_1"], document.getElementById("joueur_" + player2).innerHTML);
       nb_games++;
     } 
   }
@@ -152,5 +145,5 @@ function generatePlayer(arr, id){
 function begin_tornaments() {
   const element = document.getElementById("div-tournoi");
   element.remove();
-
+  console.log(playersArr2);
 }
