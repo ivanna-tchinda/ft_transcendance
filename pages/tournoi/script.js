@@ -9,6 +9,9 @@ var game;
 var anim;
 let playerName1;
 let playerName2;
+let nextbtn;
+let it = 0;
+
 
 const PLAYER_HEIGHT = 100;
 const PLAYER_WIDTH = 5;
@@ -165,7 +168,8 @@ function loadGamePage(player1, player2){
       const canvas = document.getElementById("canvas");
       playerName1 = document.getElementById("joueur1");
       playerName2 = document.getElementById("joueur2");
-      if (canvas && playerName1 && playerName2) {
+      nextbtn = document.getElementById("next-btn");
+      if (canvas && playerName1 && playerName2 && nextbtn) {
         playerName1.innerHTML = player1;
         playerName2.innerHTML = player2;
         startCanva();
@@ -175,53 +179,52 @@ function loadGamePage(player1, player2){
 }
 
 
-async function oneGame(i) {
-  var player1 = playersArr2.get("player" + i + "_0");
-  var player2 = playersArr2.get("player" + i + "_1");
+function oneGame(it) {
+  var player1 = playersArr2.get("player" + it + "_0");
+  var player2 = playersArr2.get("player" + it + "_1");
   console.log("first game: " + player1 + " vs " + player2);
   loadGamePage(player1, player2);
   return 1;
 }
 
-
-
-async function playEachGame(){
-  var i = 0;
-  while(i < nb_games)
-  {
-    await oneGame(i);
-    i++;
-  }
-}
-
 function begin_tornaments() {
   const element = document.getElementById("div-tournoi");
   element.remove();
-  playEachGame();
+  oneGame(it);
 }
 
 function displayWin(score1, score2) {
   const element = document.getElementById("jeu-div");
   element.remove();
-
   
-    const newUser = document.createElement("p");
-    const newContent = document.createTextNode(element);
-    newUser.appendChild(newContent);
+  const newUser = document.createElement("p");
+  const newContent = document.createTextNode(element);
+  newUser.appendChild(newContent);
 
-    const username = document.getElementById("container");
-    if(score1 > 2)
-    {
-      newUser.innerHTML = playerName1.innerHTML + " HAS WON";
-      console.log(playerName1.innerHTML + " HAS WON");
-    }
-    else
-    {
-      newUser.innerHTML = playerName2.innerHTML + " HAS WON";
-      console.log(playerName2.innerHTML + " HAS WON");
-    }
+  const newBtn = document.createElement("button");
+  const newDiv = document.createTextNode(element);
+  newBtn.appendChild(newDiv);
+  newBtn.setAttribute("id", "next-btn");
 
-    username.appendChild(newUser);
+
+  const username = document.getElementById("container");
+  if(score1 > 2)
+  {
+    newUser.innerHTML = playerName1.innerHTML + " HAS WON";
+    console.log(playerName1.innerHTML + " HAS WON");
+  }
+  else
+  {
+    newUser.innerHTML = playerName2.innerHTML + " HAS WON";
+    console.log(playerName2.innerHTML + " HAS WON");
+  }
+  newBtn.innerHTML = "Suivant";
+
+  username.appendChild(newUser);
+  username.appendChild(newBtn);
+
+  var nextbtn = document.getElementById("next-btn");
+  nextbtn.addEventListener('click', oneGame(++it));
     
 
 }
@@ -255,8 +258,6 @@ function startCanva() {
 
 function draw() {
     const canvas = document.getElementById("canvas");
-    if(!canvas)
-      return;
     var context = canvas.getContext('2d');
 
     // Draw field
