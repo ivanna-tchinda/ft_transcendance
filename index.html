@@ -2,9 +2,7 @@
 
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hubballi&family=Megrim&family=VT323&display=swap'" integrity="sha384-AgBHHZbyj3UE1+70T9D3+Fb4UC91WDWHvEL4s3JwlAba6HQogYJJ8ILhE+LRfjUw" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="style.css" id="style-link"/>
     <link rel="shortcut icon" href="#">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,13 +11,11 @@
 <body>
     <h1 class="link" value="home">PONG GAME</h1>
     <section id="container">
-        <nav>
-            <ul class="menu" >
-                <button onclick="changeRegion(this.value)" class="link" value="jeu"> Jeu 1v1</button>
-                <button onclick="changeRegion(this.value);" class="link" value="tournoi"> Tournoi</button>
-                <button onclick="changeRegion(this.value);" class="link" value="computer"> Jouer contre un ordinateur</button>
-            </ul>
-        </nav>
+        <div id="buttons">
+            <button onclick="changeRegion(this.value);" class="link" value="jeu"> Jeu 1v1</button>
+            <button onclick="changeRegion(this.value);" class="link" value="tournoi"> Tournoi</button>
+            <button onclick="changeRegion(this.value);" class="link" value="computer"> IA</button>
+        </div>
     <main role="main">
 
     </section>
@@ -40,6 +36,10 @@
             s.id = "map";
             document.getElementById("output").innerHTML = "";
             document.getElementById("output").appendChild(s);
+
+            var styleLink = document.getElementById("style-link");
+            styleLink.href = "http://localhost:8000/pages/" + value + "/style.css";
+            console.log(styleLink);
         }
         </script>
             

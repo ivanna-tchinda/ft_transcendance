@@ -1,3 +1,36 @@
+button{
+    width: 15vw;
+    height: 15vw;
+    color: yellow ;
+    font-family: "VT323";
+    border-width: 2px;
+    border-radius: 15px;
+    font-size: 3vh;
+    padding: 70px;
+    background: transparent;
+    cursor: pointer;
+    transition: 1s;
+    box-shadow: 10px 10px 70px white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+button:hover{
+    background-color: yellow;
+    color: black;
+    box-shadow: 10px 10px 10px yellow;
+}
+#buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 200px;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 body 
 {
     margin: 0;
@@ -10,4 +43,3 @@ html
 {
     scrollbar-color: rgb(199, 187, 14) white;
 }
-

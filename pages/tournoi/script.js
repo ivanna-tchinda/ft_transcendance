@@ -98,9 +98,23 @@ function launchTourn(e){
     begin_tornaments();
 }
 
+function isValidUsername(nom) 
+{
+  // Expression régulière pour autoriser seulement les lettres, les chiffres, les tirets et les underscores
+  var regex = /^[a-zA-Z0-9_\-]+$/;
+  // Vérifie si le nom d'utilisateur correspond à l'expression régulière
+  return regex.test(nom);
+}
+
 function participateTournament(e) {
   e.preventDefault();
-  if (username.value == "") {
+  if (!isValidUsername(username)) 
+  {
+    // Empêche l'envoi du formulaire si la validation échoue
+    // Affiche un message d'erreur à l'utilisateur
+    alert("The username is invalid. Please do not use special characters.");
+  }
+  else if (username.value == "") {
     alert("Ensure you input a value in both fields!");
     return;
   } 
