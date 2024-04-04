@@ -14,7 +14,6 @@ function loadPage()
 {
     console.log("page loading");
     const request = new XMLHttpRequest();
-    const scriptRequest = new XMLHttpRequest();
     const container = document.getElementById("container");
     request.open("GET", "pages/jeu/index.html");
     request.send();

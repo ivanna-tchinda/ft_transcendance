@@ -7,10 +7,12 @@ let loginForm;
 let playersArr2;
 var game;
 var anim;
+let canvas;
 let playerName1;
 let playerName2;
 let nextbtn;
 let it = 0;
+let winnersArr = [];
 
 
 const PLAYER_HEIGHT = 100;
@@ -156,7 +158,6 @@ function generatePlayer(arr, id){
 
 function loadGamePage(player1, player2){
   const request = new XMLHttpRequest();
-  const scriptRequest = new XMLHttpRequest();
   const container = document.getElementById("container");
   request.open("GET", "pages/jeu/index.html");
   request.send();
@@ -165,13 +166,14 @@ function loadGamePage(player1, player2){
     if(request.status == 200)
       container.innerHTML = request.responseText;
     setTimeout(function() {
-      const canvas = document.getElementById("canvas");
+      canvas = document.getElementById("canvas");
       playerName1 = document.getElementById("joueur1");
       playerName2 = document.getElementById("joueur2");
-      nextbtn = document.getElementById("next-btn");
-      if (canvas && playerName1 && playerName2 && nextbtn) {
+      console.log("loading...");
+      if (canvas && playerName1 && playerName2) {
         playerName1.innerHTML = player1;
         playerName2.innerHTML = player2;
+        console.log("loaded...");
         startCanva();
       }
     }, 100);
@@ -184,7 +186,6 @@ function oneGame(it) {
   var player2 = playersArr2.get("player" + it + "_1");
   console.log("first game: " + player1 + " vs " + player2);
   loadGamePage(player1, player2);
-  return 1;
 }
 
 function begin_tornaments() {
@@ -195,7 +196,7 @@ function begin_tornaments() {
 
 function displayWin(score1, score2) {
   const element = document.getElementById("jeu-div");
-  element.remove();
+  // element.remove();
   
   const newUser = document.createElement("p");
   const newContent = document.createTextNode(element);
@@ -211,11 +212,13 @@ function displayWin(score1, score2) {
   if(score1 > 2)
   {
     newUser.innerHTML = playerName1.innerHTML + " HAS WON";
+    winnersArr.push(playerName1.innerHTML);
     console.log(playerName1.innerHTML + " HAS WON");
   }
   else
   {
     newUser.innerHTML = playerName2.innerHTML + " HAS WON";
+    winnersArr.push(playerName2.innerHTML);
     console.log(playerName2.innerHTML + " HAS WON");
   }
   newBtn.innerHTML = "Suivant";
@@ -223,10 +226,46 @@ function displayWin(score1, score2) {
   username.appendChild(newUser);
   username.appendChild(newBtn);
 
-  var nextbtn = document.getElementById("next-btn");
-  nextbtn.addEventListener('click', oneGame(++it));
+  setTimeout(() => {
     
+  }, 10000);
+  if(it < nb_games - 1)
+  {
+    console.log("it: " + it + " nb_games: " + nb_games);
+    var nextbtn = document.getElementById("next-btn");
+    nextbtn.addEventListener('click', function() {
+        oneGame(++it);
+    });
+  }
+  else
+  {
+    var nextbtn = document.getElementById("next-btn");
+    nextbtn.addEventListener('click', function() {
+        winnersDisplay();
+    });
+  }
+  
+}
 
+function winnersDisplay() {
+  const element = document.getElementById("jeu-div");
+  element.remove();
+
+  const elt = document.getElementById("container");
+  
+  const winnersUser = document.createElement("p");
+  var newContent = document.createTextNode("Winners are: ");
+  winnersUser.appendChild(newContent);
+  var i = 0;
+  while(winnersArr[i])
+  {
+    console.log(winnersArr[i]);
+    newContent = document.createTextNode(winnersArr[i] + ", ");
+    winnersUser.appendChild(newContent);
+    i++;
+  }
+
+  elt.appendChild(winnersUser);
 }
 
 /* GAME PART */
@@ -253,7 +292,7 @@ function startCanva() {
     document.addEventListener('keydown', player2Move);
     // Mouse click event
     document.querySelector('#start-game').addEventListener('click', play);
-    document.querySelector('#stop-game').addEventListener('click', stop);
+    // document.querySelector('#stop-game').addEventListener('click', stop);
 }
 
 function draw() {
@@ -314,11 +353,6 @@ function player2Move(event)
 function collide(player) {
     // The player does not hit the ball
     if (game.ball.y < player.y || game.ball.y > player.y + PLAYER_HEIGHT) {
-        if(game.computer.score > 2 || game.player.score > 2)
-        {
-          stop(game.player.score, game.computer.score);
-          return;
-        }
         if (player == game.player) {
             game.computer.score++;
             document.querySelector('#computer-score').textContent = game.computer.score;
@@ -364,22 +398,29 @@ function play() {
     ballMove();
 
     anim = requestAnimationFrame(play);
+
+    if(game.computer.score > 2 || game.player.score > 2)
+    {
+      stop();
+      return;
+    }
 }
 
 function reset() {
-    const canvas = document.getElementById("canvas");
-    // Set ball and players to the center
-    game.ball.x = canvas.width / 2;
-    game.ball.y = canvas.height / 2;
-    game.player.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
-    game.computer.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
-
-    // Reset speed
-    game.ball.speed.x = 3;
-    game.ball.speed.y = Math.random() * 3;
+  console.log("RESET");
+  const canvas = document.getElementById("canvas");
+  // Set ball and players to the center
+  game.ball.x = canvas.width / 2;
+  game.ball.y = canvas.height / 2;
+  game.player.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
+  game.computer.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
+  // Reset speed
+  game.ball.speed.x = 3;
+  game.ball.speed.y = Math.random() * 3;
 }
 
 function stop() {
+  console.log("STOP");
     cancelAnimationFrame(anim);
     reset();
     // Init score
