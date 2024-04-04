@@ -1,0 +1,9 @@
+services: # Definition of services to run
+  web:
+    build: ./web/ # Build the image from the Dockerfile in the current directory
+    expose: # Configuration of ports to expose
+      - "8000:8000" # Forward port 8000 from the container to port 8000 on the host
+  modsecurity:
+    build: ./modsecurity/
+    expose:
+      - "80:80"

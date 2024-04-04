@@ -1,12 +1,12 @@
 all:
-	docker compose -f ./docker-compose.yml build
-	docker compose -f ./docker-compose.yml up -d
+	docker compose -f src/docker-compose.yml build
+	docker compose -f src/docker-compose.yml up -d
 
 stop:
-	docker compose -f ./docker-compose.yml down
+	docker compose -f src/docker-compose.yml down
 
 up:
-	docker compose -f ./docker-compose.yml up -d
+	docker compose -f src/docker-compose.yml up -d
 
 ls:
 	docker ps
@@ -14,10 +14,10 @@ ls:
 	docker network ls
 
 logs:
-	docker compose -f ./docker-compose.yml logs
+	docker compose -f src/docker-compose.yml logs
 
 clean:
-	docker compose -f ./docker-compose.yml down --volumes --remove-orphans
+	docker compose -f src/docker-compose.yml down --volumes --remove-orphans
 
 
 fclean: clean
