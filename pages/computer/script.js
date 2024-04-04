@@ -1,12 +1,37 @@
 'use strict';
 
-var canvas;
-var game;
-var anim;
+let canvas;
+let game;
+let anim;
 
 const PLAYER_HEIGHT = 100;
 const PLAYER_WIDTH = 5;
 const MAX_SPEED = 12;
+
+loadPage();
+
+function loadPage()
+{
+    console.log("page loading");
+    const request = new XMLHttpRequest();
+    const scriptRequest = new XMLHttpRequest();
+    const container = document.getElementById("container");
+    request.open("GET", "pages/computer/index.html");
+    request.send();
+    request.onload = function()
+    {
+        if(request.status == 200)
+            container.innerHTML = request.responseText;
+            setTimeout(function() {
+                const canvas = document.getElementById("canvas");
+                if (canvas) {
+                    startGame();
+                }
+            }, 100);
+
+    }  
+    
+}
 
 function draw() {
     var context = canvas.getContext('2d');
@@ -131,7 +156,7 @@ function stop() {
     draw();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function startGame() {
     canvas = document.getElementById('canvas');
     game = {
         player: {
@@ -156,4 +181,4 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#start-game').addEventListener('click', play);
     document.querySelector('#stop-game').addEventListener('click', stop);
 
-});
+};

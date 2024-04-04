@@ -5,6 +5,15 @@ let username;
 let btn_participate;
 let loginForm;
 let playersArr2;
+var game;
+var anim;
+let playerName1;
+let playerName2;
+
+const PLAYER_HEIGHT = 100;
+const PLAYER_WIDTH = 5;
+const MAX_SPEED = 12;
+
 
 loadPage();
 
@@ -67,7 +76,7 @@ function launchTourn(e){
         playersArr.push(it);
         it++;
     }
-    playersArr2 = [];
+    playersArr2 = new Map();
     while(playersArr.length)
     {
       var player1 = generatePlayer(playersArr, id);
@@ -75,8 +84,8 @@ function launchTourn(e){
       var player2 = generatePlayer(playersArr, id);
       playersArr.splice(playersArr.indexOf(player2), 1);
       console.log(document.getElementById("joueur_" + player1).innerHTML + " is going to confront " + document.getElementById("joueur_" + player2).innerHTML);
-      playersArr2.push(["player" + nb_games + "_0"], document.getElementById("joueur_" + player1).innerHTML);
-      playersArr2.push(["player" + nb_games + "_1"], document.getElementById("joueur_" + player2).innerHTML);
+      playersArr2.set("player" + nb_games + "_0", document.getElementById("joueur_" + player1).innerHTML);
+      playersArr2.set("player" + nb_games + "_1", document.getElementById("joueur_" + player2).innerHTML);
       nb_games++;
     } 
   }
@@ -142,8 +151,244 @@ function generatePlayer(arr, id){
     return(num);
 }
 
+function loadGamePage(player1, player2){
+  const request = new XMLHttpRequest();
+  const scriptRequest = new XMLHttpRequest();
+  const container = document.getElementById("container");
+  request.open("GET", "pages/jeu/index.html");
+  request.send();
+  request.onload = function()
+  {
+    if(request.status == 200)
+      container.innerHTML = request.responseText;
+    setTimeout(function() {
+      const canvas = document.getElementById("canvas");
+      playerName1 = document.getElementById("joueur1");
+      playerName2 = document.getElementById("joueur2");
+      if (canvas && playerName1 && playerName2) {
+        playerName1.innerHTML = player1;
+        playerName2.innerHTML = player2;
+        startCanva();
+      }
+    }, 100);
+  }
+}
+
+
+async function oneGame(i) {
+  var player1 = playersArr2.get("player" + i + "_0");
+  var player2 = playersArr2.get("player" + i + "_1");
+  console.log("first game: " + player1 + " vs " + player2);
+  loadGamePage(player1, player2);
+  return 1;
+}
+
+
+
+async function playEachGame(){
+  var i = 0;
+  while(i < nb_games)
+  {
+    await oneGame(i);
+    i++;
+  }
+}
+
 function begin_tornaments() {
   const element = document.getElementById("div-tournoi");
   element.remove();
-  console.log(playersArr2);
+  playEachGame();
+}
+
+function displayWin(score1, score2) {
+  const element = document.getElementById("jeu-div");
+  element.remove();
+
+  
+    const newUser = document.createElement("p");
+    const newContent = document.createTextNode(element);
+    newUser.appendChild(newContent);
+
+    const username = document.getElementById("container");
+    if(score1 > 2)
+    {
+      newUser.innerHTML = playerName1.innerHTML + " HAS WON";
+      console.log(playerName1.innerHTML + " HAS WON");
+    }
+    else
+    {
+      newUser.innerHTML = playerName2.innerHTML + " HAS WON";
+      console.log(playerName2.innerHTML + " HAS WON");
+    }
+
+    username.appendChild(newUser);
+    
+
+}
+
+/* GAME PART */
+
+function startCanva() {
+    
+    game = {
+        player: {
+            score: 0
+        },
+        computer: {
+            score: 0,
+            speedRatio: 0.75
+        },
+        ball: {
+            r: 5,
+            speed: {}
+        }
+    };
+    draw();
+    reset();
+    // Mouse move event
+    document.addEventListener('keydown', playerMove);
+    document.addEventListener('keydown', player2Move);
+    // Mouse click event
+    document.querySelector('#start-game').addEventListener('click', play);
+    document.querySelector('#stop-game').addEventListener('click', stop);
+}
+
+function draw() {
+    const canvas = document.getElementById("canvas");
+    if(!canvas)
+      return;
+    var context = canvas.getContext('2d');
+
+    // Draw field
+    context.fillStyle = 'black';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw middle line
+    context.strokeStyle = 'white';
+    context.beginPath();
+    context.moveTo(canvas.width / 2, 0);
+    context.lineTo(canvas.width / 2, canvas.height);
+    context.stroke();
+
+    // Draw players
+    context.fillStyle = 'white';
+    context.fillRect(0, game.player.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+    context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+
+    // Draw ball
+    context.beginPath();
+    context.fillStyle = 'white';
+    context.arc(game.ball.x, game.ball.y, game.ball.r, 0, Math.PI * 2, false);
+    context.fill();
+}
+
+function changeDirection(playerPosition) {
+    var impact = game.ball.y - playerPosition - PLAYER_HEIGHT / 2;
+    var ratio = 100 / (PLAYER_HEIGHT / 2);
+
+    // Get a value between 0 and 10
+    game.ball.speed.y = Math.round(impact * ratio / 10);
+}
+
+function playerMove(event) 
+{
+    const canvas = document.getElementById("canvas");
+    if(event.code == 'ArrowDown' && game.player.y < canvas.height - PLAYER_HEIGHT)
+        game.player.y += 20;
+    else if(event.code == 'ArrowUp' && game.player.y > 0)
+        game.player.y -= 20;
+
+}
+
+function player2Move(event) 
+{
+    const canvas = document.getElementById("canvas");
+    if(event.code == 'KeyS' && game.computer.y < canvas.height - PLAYER_HEIGHT)
+        game.computer.y += 20;
+    else if(event.code == 'KeyW' && game.computer.y > 0)
+        game.computer.y -= 20;
+
+}
+
+function collide(player) {
+    // The player does not hit the ball
+    if (game.ball.y < player.y || game.ball.y > player.y + PLAYER_HEIGHT) {
+        if(game.computer.score > 2 || game.player.score > 2)
+        {
+          stop(game.player.score, game.computer.score);
+          return;
+        }
+        if (player == game.player) {
+            game.computer.score++;
+            document.querySelector('#computer-score').textContent = game.computer.score;
+        } else {
+            game.player.score++;
+            document.querySelector('#player-score').textContent = game.player.score;
+        }
+    } else {
+        // Change direction
+        game.ball.speed.x *= -1;
+        changeDirection(player.y);
+
+        // Increase speed if it has not reached max speed
+        if (Math.abs(game.ball.speed.x) < MAX_SPEED) {
+            game.ball.speed.x *= 1.2;
+        }
+    }
+}
+
+function ballMove() {
+    const canvas = document.getElementById("canvas");
+    if(!canvas)
+      return;
+    // Rebounds on top and bottom
+    if (game.ball.y > canvas.height || game.ball.y < 0) {
+        game.ball.speed.y *= -1;
+    }
+
+    if (game.ball.x > canvas.width - PLAYER_WIDTH) {
+        collide(game.computer);
+    } else if (game.ball.x < PLAYER_WIDTH) {
+        collide(game.player);
+    }
+
+    game.ball.x += game.ball.speed.x;
+    game.ball.y += game.ball.speed.y;
+}
+
+function play() {
+    draw();
+
+    // computerMove(); //pour l'IA
+    ballMove();
+
+    anim = requestAnimationFrame(play);
+}
+
+function reset() {
+    const canvas = document.getElementById("canvas");
+    // Set ball and players to the center
+    game.ball.x = canvas.width / 2;
+    game.ball.y = canvas.height / 2;
+    game.player.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
+    game.computer.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
+
+    // Reset speed
+    game.ball.speed.x = 3;
+    game.ball.speed.y = Math.random() * 3;
+}
+
+function stop() {
+    cancelAnimationFrame(anim);
+    reset();
+    // Init score
+    game.computer.score = 0;
+    game.player.score = 0;
+
+    document.querySelector('#computer-score').textContent = game.computer.score;
+    document.querySelector('#player-score').textContent = game.player.score;
+
+    draw();
+    displayWin(game.computer.score, game.player.score);
+    return;
 }
