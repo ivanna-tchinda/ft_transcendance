@@ -3,7 +3,18 @@ services: # Definition of services to run
     build: ./web/ # Build the image from the Dockerfile in the current directory
     expose: # Configuration of ports to expose
       - "8000:8000" # Forward port 8000 from the container to port 8000 on the host
-  modsecurity:
-    build: ./modsecurity/
-    expose:
-      - "80:80"
+  nginx:
+    image: nginx
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile	
+    ports:
+      - "8890:80"
+    restart: unless-stopped
+    healthcheck:
+      test: 'curl -kfsSL https://localhost:3000/status'
+      interval: 5s
+      timeout: 1s
+      retries: 10
+      start_period: 5s

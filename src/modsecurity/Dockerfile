@@ -1,11 +1,11 @@
-from debian:bullseye
+FROM debian:bullseye
 
-WORKDIR /sgoinfre
+RUN apt-get update -y 
+RUN apt-get install -y nginx
+RUN apt-get install -y vim
+RUN apt-get install -y curl
 
-RUN apt update 
-RUN apt install -y apache2 
-RUN apt install -y apache2-utils 
-RUN apt clean 
-EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
-CMD [“apache2ctl”, “-D”, “FOREGROUND”]
+
+
