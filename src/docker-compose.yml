@@ -1,20 +1,21 @@
 services: # Definition of services to run
   web:
-    build: ./web/ # Build the image from the Dockerfile in the current directory
-    expose: # Configuration of ports to expose
+    image: node:14
+    container_name: web
+    build: 
+      context: ./web/ # Build the image from the Dockerfile in the current directory
+      # dockerfile: Dockerfile
+    # container_name: web
+    ports: # Configuration of ports to expose
       - "8000:8000" # Forward port 8000 from the container to port 8000 on the host
   nginx:
-    image: nginx
+    image: debian:bullseye
     container_name: nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile	
-    ports:
-      - "8890:80"
-    restart: unless-stopped
-    healthcheck:
-      test: 'curl -kfsSL https://localhost:3000/status'
-      interval: 5s
-      timeout: 1s
-      retries: 10
-      start_period: 5s
+    build: 
+      context: ./nginx/ # Build the image from the Dockerfile in the current directory
+    ports: 
+      - "3000:3000"
+    volumes:
+      - ./nginx:/usr/share/nginx/html
+
+# 273s
