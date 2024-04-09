@@ -1,20 +1,20 @@
 services: # Definition of services to run
-  web:
-    image: node:14
-    container_name: web
-    build: 
-      context: ./web/ # Build the image from the Dockerfile in the current directory
-      # dockerfile: Dockerfile
-    # container_name: web
-    ports: # Configuration of ports to expose
-      - "8000:8000" # Forward port 8000 from the container to port 8000 on the host
+  # web:
+  #   image: node:14
+  #   container_name: web
+  #   build: 
+  #     context: ./web/ # Build the image from the Dockerfile in the current directory
+  #     # dockerfile: Dockerfile
+  #   # container_name: web
+  #   ports: # Configuration of ports to expose
+  #     - "8000:8000" # Forward port 8000 from the container to port 8000 on the host
   nginx:
     image: debian:bullseye
     container_name: nginx
     build: 
       context: ./nginx/ # Build the image from the Dockerfile in the current directory
     ports: 
-      - "3000:3000"
+      - "3000:80"
     volumes:
       - ./nginx:/usr/share/nginx/html
 
