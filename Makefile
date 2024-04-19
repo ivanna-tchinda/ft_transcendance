@@ -1,28 +1,13 @@
-all:
-	docker compose -f src/docker-compose.yml build
-	docker compose -f src/docker-compose.yml up -d
-
-stop:
-	docker compose -f src/docker-compose.yml down
+all: up
 
 up:
-	docker compose -f src/docker-compose.yml up -d
+		@docker compose -f srcs/docker-compose.yml up -d --build
 
-ls:
-	docker ps
-	docker volume ls
-	docker network ls
+down:
+		@docker compose -f srcs/docker-compose.yml down
 
-logs:
-	docker compose -f src/docker-compose.yml logs
+clean: down
+		@docker volume rm srcs_postgres
+		@docker image rm srcs-back postgres:16.2
 
-clean:
-	docker compose -f src/docker-compose.yml down --volumes --remove-orphans
-
-
-fclean: clean
-	@docker system prune -af
-
-re: fclean all
-
-.PHONY: all stop up ls logs clean fclean re
+.PHONY: all up down clean

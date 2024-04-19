@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+  back:
+    container_name: back
+    depends_on:
+      - postgres
+    networks:
+      - transcendence
+    env_file: .env
+    build: back
+    volumes:
+      - ./back/files/transcendence:/transcendence
+    ports:
+      - "8000:8000"
+    restart: on-failure
+  
+  postgres:
+    image: postgres:16.2
+    container_name: postgres
+    networks:
+      - transcendence
+    env_file: .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+  # vault:
+  #   image: alpine:3.14
+  #   container_name: vault
+  #   build: vault
+  #   ports:
+  #     - "8200:8200"
+  #   environment:
+  #     - VAULT_ADDR=http://127.0.0.0:8200
+  #     - VAULT_API_ADDR=http://127.0.0.0:8200
+  #   cap_add:
+  #     - IPC_LOCK
+#  front:
+#    container_name: front
+#    depends_on:
+#      - back
+#    networks:
+#      - transcendence
+#    env_file: .env
+#    build: front
+#    restart: on-failure
+#    ports:
+#      - "8080:8080"
+  # firewall:
+  #   image: debian:bullseye
+  #   container_name: firewall
+  #   build: 
+  #     context: ./firewall/ # Build the image from the Dockerfile in the current directory
+  #   ports: 
+  #     - "3000:3000"
+
+
+volumes:
+  postgres:
+
+networks:
+  transcendence:
