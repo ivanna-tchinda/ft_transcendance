@@ -25,11 +25,12 @@ ENV PATH="PATH=$PATH:$PWD/vault"
 # add the config file
 COPY /conf/vault-config.json /vault/config/vault-config.json
 COPY tools/vault.sh /tools/vault.sh
-
-RUN echo lol
+RUN chmod +x /tools/vault.sh
 
 # expose port 8200
 EXPOSE 8200
 
 # run vault
-CMD ["sh", "-c", "vault server -config=/vault/config/vault-config.json & /tools/vault.sh"]
+CMD ["bash", "-c", "vault server -config=/vault/config/vault-config.json"]
+RUN ["bash", "-c", "/tools/vault.sh"]
+
