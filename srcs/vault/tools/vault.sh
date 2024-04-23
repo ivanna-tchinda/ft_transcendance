@@ -1,4 +1,8 @@
 #!/bin/bash
 
 
-# Exécuter la commande spécifiée dans CMD
+vault server -config=/vault/config/vault-config.json & pid=$!
+
+vault operator init > text2
+
+wait $pid

@@ -30,7 +30,4 @@ RUN chmod +x /tools/vault.sh
 # expose port 8200
 EXPOSE 8200
 
-# run vault
-CMD ["bash", "-c", "vault server -config=/vault/config/vault-config.json"]
-RUN ["bash", "-c", "/tools/vault.sh"]
-
+CMD ["vault"]

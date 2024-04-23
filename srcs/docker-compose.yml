@@ -12,13 +12,14 @@ services:
       - VAULT_API_ADDR=http://127.0.0.0:8200
     cap_add:
       - IPC_LOCK
+    command: sh -c tools/vault.sh
   back:
     container_name: back
     depends_on:
       - postgres
     networks:
       - transcendence
-    # env_file: .env
+    env_file: .env
     build: back
     volumes:
       - ./back/files/transcendence:/transcendence
@@ -31,7 +32,7 @@ services:
     container_name: postgres
     networks:
       - transcendence
-    # env_file: .env
+    env_file: .env
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
