@@ -5,6 +5,13 @@ var game;
 var anim;
 
 
+
+window.onbeforeunload = function(e) {
+    console.log(window.history.state);
+  return 'Are you sure?';
+};
+
+
 const PLAYER_HEIGHT3 = 100;
 const PLAYER_WIDTH3 = 5;
 const MAX_SPEED3 = 12;

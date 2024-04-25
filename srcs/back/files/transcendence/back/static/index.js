@@ -1,4 +1,9 @@
 
+window.onbeforeunload = function(e) {
+      console.log(window.history.state);
+    return 'Are you sure?';
+  };
+
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('match_link').addEventListener("click", function(){
         fetch('/jeu/')
