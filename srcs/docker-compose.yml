@@ -1,18 +1,18 @@
 version: '3.9'
 
 services:
-  vault:
-    image: alpine:3.14
-    container_name: vault
-    build: vault
-    ports:
-      - "8200:8200"
-    environment:
-      - VAULT_ADDR=http://127.0.0.0:8200
-      - VAULT_API_ADDR=http://127.0.0.0:8200
-    cap_add:
-      - IPC_LOCK
-    command: sh -c tools/vault.sh
+  # vault:
+  #   image: alpine:3.14
+  #   container_name: vault
+  #   build: vault
+  #   ports:
+  #     - "8200:8200"
+  #   environment:
+  #     - VAULT_ADDR=http://127.0.0.0:8200
+  #     - VAULT_API_ADDR=http://127.0.0.0:8200
+  #   command: server -config=/vault/config/vault-config.json
+  #   cap_add:
+  #     - IPC_LOCK
   back:
     container_name: back
     depends_on:
@@ -56,10 +56,7 @@ services:
   #     context: ./firewall/ # Build the image from the Dockerfile in the current directory
   #   ports: 
   #     - "3000:3000"
-
-
 volumes:
   postgres:
-
 networks:
   transcendence:

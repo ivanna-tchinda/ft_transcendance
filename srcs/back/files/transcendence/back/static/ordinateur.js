@@ -3,14 +3,9 @@ var canvas3;
 var btn_start;
 var game;
 var anim;
-
-
-
-window.onbeforeunload = function(e) {
-    console.log(window.history.state);
-  return 'Are you sure?';
-};
-
+const select = document.querySelector("select");
+let start_game;
+let stop_game;
 
 const PLAYER_HEIGHT3 = 100;
 const PLAYER_WIDTH3 = 5;
@@ -19,11 +14,37 @@ const MAX_SPEED3 = 12;
 setTimeout(function() {
     btn_start = document.getElementById("start-game");
     canvas3 = document.getElementById("canvas2");
-    if (btn_start && canvas3) {
+    start_game = document.getElementById("start-game");
+    stop_game = document.getElementById("stop-game");
+    if (btn_start && canvas3 && select && start_game && stop_game) {
+        translateGame(select.value);
         startGame();
     }
 }, 1000);
 
+select.addEventListener("change", (event) => {
+    translateGame(event.target.value);
+})
+
+function translateGame(language){
+
+    console.log(language);
+    if(language == "fr")
+    {
+        start_game.innerText = translations.fr.start;
+        stop_game.innerText = translations.fr.stop;
+    }
+    else if(language == "en")
+    {
+        start_game.innerText = translations.en.start;
+        stop_game.innerText = translations.en.stop;
+    }
+    else if(language == "es")
+    {
+        start_game.innerText = translations.es.start;
+        stop_game.innerText = translations.es.stop;
+    }
+}
 
 function startGame() {
     game = {

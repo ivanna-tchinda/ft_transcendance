@@ -18,13 +18,6 @@ const PLAYER_HEIGHT2 = 100;
 const PLAYER_WIDTH2 = 5;
 const MAX_SPEED2 = 12;
 
-
-window.onbeforeunload = function(e) {
-  console.log(window.history.state);
-return 'Are you sure?';
-};
-
-
 setTimeout(function() {
     launchTornament = document.getElementById("btn-launch-game");
     btn_participate = document.getElementById("btn-participer");

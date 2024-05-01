@@ -17,23 +17,20 @@ RUN apk --no-cache add \
 RUN wget --quiet --output-document=/tmp/vault.zip https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip && \
     unzip -o /tmp/vault.zip -d /vault && \
     rm -f /tmp/vault.zip && \
-    chmod +x /vault
+    chmod +x vault/vault
 
 # update PATH
 ENV PATH="PATH=$PATH:$PWD/vault"
 
 # add the config file
 COPY /conf/vault-config.json /vault/config/vault-config.json
-COPY tools/vault.sh /tools/vault.sh
-COPY auth.py .
-RUN chmod +x /tools/vault.sh
 
-ENV PYTHONUNBUFFERED=1
-RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
-RUN python3 -m ensurepip
-RUN pip3 install --no-cache --upgrade pip setuptools
-RUN pip install hvac
+# COPY tools/vault.sh tools/vault.sh
+# RUN chmod +x tools/vault.sh
+# RUN tools/vault.sh
+
 # expose port 8200
 EXPOSE 8200
 
-CMD ["vault"]
+# run vault
+ENTRYPOINT ["vault"]

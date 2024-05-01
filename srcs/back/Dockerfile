@@ -15,5 +15,4 @@ RUN apt install python3 \
     && pip install django-bootstrap-v5 \
     && python -m pip install -U 'channels[daphne]'
 
-
-CMD ["./script.sh"]
+ENTRYPOINT ["./script.sh"]
