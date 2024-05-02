@@ -32,8 +32,9 @@
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown"
                             role="button" aria-expanded="false">
                             <select>
-                                <option value="en">English</option>
+                                <option value="" selected="selected">---Select an option---</option>
                                 <option value="fr">Français</option>
+                                <option value="en">English</option>
                                 <option value="es">Spanish</option>
                             </select>
                                 <img src="" class="rounded-circle"
@@ -41,7 +42,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item" href="#" onclick="event.preventDefault();">My profile</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="event.preventDefault();">Settings</a></li>
+                                <li id="settings"><a class="dropdown-item" href="settings.html" onclick="event.preventDefault();">Settings</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="event.preventDefault();">Logout</a></li>
                             </ul>
                         </li>

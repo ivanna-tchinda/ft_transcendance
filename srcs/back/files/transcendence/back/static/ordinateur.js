@@ -28,7 +28,6 @@ select.addEventListener("change", (event) => {
 
 function translateGame(language){
 
-    console.log(language);
     if(language == "fr")
     {
         start_game.innerText = translations.fr.start;
@@ -74,7 +73,6 @@ function startGame() {
 
 function drawCanvas() {
     canvas3 = document.getElementById("canvas2");
-    console.log(canvas3);
     var context = canvas3.getContext('2d');
 
     // Draw field

@@ -22,10 +22,8 @@ setTimeout(function() {
     launchTornament = document.getElementById("btn-launch-game");
     btn_participate = document.getElementById("btn-participer");
     username = document.getElementById("username");
-    console.log("enter");
     if (launchTornament && username && btn_participate)  {
       btn_participate.addEventListener('click', function(e) {
-        console.log("participate");
           e.preventDefault();
           participateTournament(e);
         });
@@ -199,9 +197,7 @@ function loadGamePage(player1, player2){
   jeu_div.appendChild(newCanvas);
 
   setTimeout(function() {
-      console.log("loading..." + newCanvas + " " + playerName1.innerHTML + " " + playerName2.innerHTML);
       if (newCanvas && playerName1 && playerName2) {
-        console.log("loaded!");
         startCanva();
       }
     }, 100);
@@ -211,7 +207,6 @@ function loadGamePage(player1, player2){
 function oneGame(it) {
   var player1 = playersArr2.get("player" + it + "_0");
   var player2 = playersArr2.get("player" + it + "_1");
-  console.log("first game: " + player1 + " vs " + player2);
   loadGamePage(player1, player2);
 }
 
@@ -242,13 +237,11 @@ function displayWin(score1, score2) {
   {
     newUser.innerHTML = playerName1.innerHTML + " HAS WON";
     winnersArr.push(playerName1.innerHTML);
-    console.log(playerName1.innerHTML + " HAS WON");
   }
   else
   {
     newUser.innerHTML = playerName2.innerHTML + " HAS WON";
     winnersArr.push(playerName2.innerHTML);
-    console.log(playerName2.innerHTML + " HAS WON");
   }
   newBtn.innerHTML = "Suivant";
 
@@ -299,7 +292,6 @@ function winnersDisplay() {
   var i = 0;
   while(winnersArr[i])
   {
-    console.log(winnersArr[i]);
     newContent = document.createTextNode(winnersArr[i] + ", ");
     winnersUser.appendChild(newContent);
     i++;

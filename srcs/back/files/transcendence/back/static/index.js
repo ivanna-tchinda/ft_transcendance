@@ -1,11 +1,13 @@
-
+let selectedLanguage = localStorage.getItem("favLanguage");
+const languageSelect = document.querySelector("select");
 document.addEventListener("DOMContentLoaded", function() {
-    window.confirm()
+    // window.confirm()
+    languageSelect.value = selectedLanguage;
+    setLanguage(languageSelect.value);
     document.getElementById('match_link').addEventListener("click", function(){
         fetch('/jeu/')
         .then(response => response.text())
         .then(text => {
-            console.log(text);
             document.querySelector('#content').innerHTML = text;
         });
         fetchScript("jeu.js");
@@ -14,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch('/ordinateur/')
         .then(response => response.text())
         .then(text => {
-            console.log(text);
             document.querySelector('#content').innerHTML = text;
         });
         fetchScript("ordinateur.js");
@@ -26,6 +27,14 @@ document.addEventListener("DOMContentLoaded", function() {
             document.querySelector('#content').innerHTML = text;
         });
         fetchScript("tournoi.js");
+    });
+    document.getElementById('settings').addEventListener("click", function(){
+        fetch('/settings/')
+        .then(response => response.text())
+        .then(text => {
+            document.querySelector('#content').innerHTML = text;
+        });
+        fetchScript("settings.js");
     });
 }); 
 
@@ -65,7 +74,6 @@ let translations = {
     }
 }
 
-const languageSelect = document.querySelector("select");
 let home_elt = document.getElementById("home-elt");
 let match_elt = document.getElementById("match_link");
 let ai_elt = document.getElementById("ai_link");

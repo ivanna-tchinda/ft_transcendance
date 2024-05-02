@@ -9,5 +9,6 @@ down:
 clean: down
 		@docker volume rm srcs_postgres
 		@docker image rm srcs-back postgres:16.2
+		@docker system prune -a -f
 
 .PHONY: all up down clean

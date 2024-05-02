@@ -22,6 +22,9 @@ def tournoi(request):
 def ordinateur(request):
     return render(request, "ordinateur.html")
 
+def settings(request):
+    return render(request, "settings.html")
+
 @api_view(['POST'])
 def signup(request):
     form = CustomUserCreationForm(request.POST)
