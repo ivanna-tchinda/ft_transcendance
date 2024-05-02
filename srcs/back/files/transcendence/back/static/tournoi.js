@@ -14,25 +14,34 @@ let nextbtn;
 let it = 0;
 let winnersArr = [];
 
+let titleOrd = document.getElementById("title-tournoi");
+let titlePart = document.getElementById("title-part");
+let loginPlayer = document.getElementById("login-player");
 const PLAYER_HEIGHT2 = 100;
 const PLAYER_WIDTH2 = 5;
 const MAX_SPEED2 = 12;
 
 setTimeout(function() {
-    launchTornament = document.getElementById("btn-launch-game");
-    btn_participate = document.getElementById("btn-participer");
-    username = document.getElementById("username");
-    if (launchTornament && username && btn_participate)  {
-      btn_participate.addEventListener('click', function(e) {
-          e.preventDefault();
-          participateTournament(e);
-        });
-        launchTornament.addEventListener('click', function(e) {
-          e.preventDefault();
-          launchTourn(e);
-        });
-        return;
-    }
+  launchTornament = document.getElementById("btn-launch-game");
+  btn_participate = document.getElementById("btn-participer");
+  username = document.getElementById("username");
+  languageSelect = document.querySelector("select");
+  titleOrd = document.getElementById("title-tournoi");
+  titlePart = document.getElementById("title-part");
+  loginPlayer = document.getElementById("login-player");
+  console.log("languageSelect.value");
+  setLanguageOrd(languageSelect.value);
+  if (launchTornament && username && btn_participate && titleOrd && titlePart && loginPlayer)  {
+    btn_participate.addEventListener('click', function(e) {
+      e.preventDefault();
+      participateTournament(e);
+    });
+    launchTornament.addEventListener('click', function(e) {
+      e.preventDefault();
+      launchTourn(e);
+    });
+    return;
+  }
 }, 1000);
 
 function checkInput(username)
@@ -463,4 +472,36 @@ function stop() {
     draw();
     displayWin(game.computer.score, game.player.score);
     return;
+}
+
+
+
+/////////////////TRANSLATION/////////////////////////
+
+
+languageSelect.addEventListener("change", (event) => {
+  lng = event.target.value;
+  setLanguage(event.target.value);
+})
+
+const setLanguageOrd = (language) => {
+  let trslt = translations.fr;
+  if(language == "fr")
+      trslt = translations.fr;
+  else if (language == "en")
+      trslt = translations.en;
+  else if (language == "es")
+      trslt = translations.es;
+  home_elt.innerText = trslt.home;
+  match_elt.innerText = trslt.match;
+  ai_elt.innerText = trslt.ia_match;
+  tournament_elt.innerText = trslt.tournament;
+  title_elt.innerText = trslt.title;
+  parag_elt.innerText = trslt.parag;
+  brand.innerText = trslt.brand;
+  titleOrd.innerText = trslt.title_tournoi;
+  titlePart.innerText = trslt.title_part;
+  loginPlayer.innerText = trslt.loginPlayer;
+  btn_participate.innerText = trslt.btn_part;
+  launchTornament.innerText = trslt.btn_launch;
 }

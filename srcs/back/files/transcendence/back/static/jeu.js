@@ -1,9 +1,11 @@
-'use strict';
 var btn_start;
 var canvas;
 var game;
 var anim;
-
+let joueur1 = document.getElementById("joueur1");
+let joueur2 = document.getElementById("joueur2");
+let btn1 = document.getElementById("start-game");
+let btn2 = document.getElementById("stop-game");
 
 const PLAYER_HEIGHT = 100;
 const PLAYER_WIDTH = 5;
@@ -13,87 +15,22 @@ const MAX_SPEED = 12;
 setTimeout(function() {
     btn_start = document.getElementById("start-game");
     canvas = document.getElementById("canvas");
-    if (btn_start && canvas) {
+    joueur1 = document.getElementById("joueur1");
+    joueur2 = document.getElementById("joueur2");
+    btn1 = document.getElementById("start-game");
+    btn2 = document.getElementById("stop-game");
+    console.log("jeu");
+    if (btn_start && canvas && joueur1 && joueur2 && btn1 && btn2) {
+        setLanguageJeu(lng);
         startCanva();
     }
 }, 1000);
 
 
-const translations = {
-    fr: {
-        home: "Accueil",
-        match:"Match",
-        ia_match: "Match contre IA",
-        tournament: "Tournoi",
-        title: "Bienvenue dans le monde de Pong",
-        parag: "Ici, vous pouvez jouer au pong contre une IA raisonnable, jouez contre un ami ou défiez un groupe de vos amis pour déterminer qui est le meilleur joueur de pong dans un tournoi épique.",
-        brand: "Monde de Pong"
-    },
-    en: {
-        home: "Home",
-        match:"Match",
-        ia_match: "AI Match",
-        tournament: "Tournament",
-        title: "Welcome to the world of Pong",
-        parag: "Here you can play pong against a reasonable AI, play against a friend, or challenge a bunch of your friends to determine who is the best pong player in an epic tournament.",
-        brand: "World of Pong"
-    },
-    es: {
-        home: "Bienvenida",
-        match: "Fósforo",
-        ia_match: "Partido contra IA",
-        tournament: "Torneo",
-        title: "Bienvenido al mundo de Pong",
-        parag: "Aquí puedes jugar al pong contra una IA razonable, juega contra un amigo o desafía a un grupo de amigos para determinar quién es el mejor jugador de pong en un torneo épico.",
-        brand: "Mundo de Pong"
-    }
-}
-
-const languageSelect = document.querySelector("select");
-let home_elt = document.getElementById("home-elt");
-let match_elt = document.getElementById("match_link");
-let ai_elt = document.getElementById("ai_link");
-let tournament_elt = document.getElementById("tournament_link");
-let title_elt = document.getElementById("title");
-let parag_elt = document.getElementById("parag");
-let brand = document.getElementById("brand");
-
 languageSelect.addEventListener("change", (event) => {
-    setLanguage(event.target.value);
+    lng = event.target.value;
+    setLanguageJeu(event.target.value);
 })
-
-const setLanguage = (language) => {
-    if(language == "fr")
-    {
-        home_elt.innerText = translations.fr.home;
-        match_elt.innerText = translations.fr.match;
-        ai_elt.innerText = translations.fr.ia_match;
-        tournament_elt.innerText = translations.fr.tournament;
-        title_elt.innerText = translations.fr.title;
-        parag_elt.innerText = translations.fr.parag;
-        brand.innerText = translations.fr.brand;
-    }
-    else if(language == "en")
-    {
-        home_elt.innerText = translations.en.home;
-        match_elt.innerText = translations.en.match;
-        ai_elt.innerText = translations.en.ia_match;
-        tournament_elt.innerText = translations.en.tournament;
-        title_elt.innerText = translations.en.title;
-        parag_elt.innerText = translations.en.parag;
-        brand.innerText = translations.en.brand;
-    }
-    else if(language == "es")
-    {
-        home_elt.innerText = translations.es.home;
-        match_elt.innerText = translations.es.match;
-        ai_elt.innerText = translations.es.ia_match;
-        tournament_elt.innerText = translations.es.tournament;
-        title_elt.innerText = translations.es.title;
-        parag_elt.innerText = translations.es.parag;
-        brand.innerText = translations.es.brand;
-    }
-}
 
 function startCanva() {
     
@@ -249,4 +186,48 @@ function stop() {
     document.querySelector('#player-score').textContent = game.player.score;
 
     draw();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////TRANSLATION//////////////////////
+
+const setLanguageJeu = (language) => {
+    let trslt = translations.fr;
+    if(language == "fr")
+        trslt = translations.fr;
+    else if (language == "en")
+        trslt = translations.en;
+    else if (language == "es")
+        trslt = translations.es;
+    home_elt.innerText = trslt.home;
+    match_elt.innerText = trslt.match;
+    ai_elt.innerText = trslt.ia_match;
+    tournament_elt.innerText = trslt.tournament;
+    title_elt.innerText = trslt.title;
+    parag_elt.innerText = trslt.parag;
+    brand.innerText = trslt.brand;
+    joueur1.innerText = trslt.joueur1;
+    joueur2.innerText = trslt.joueur2;
+    btn1.innerText = trslt.start;
+    btn2.innerText = trslt.stop;
 }

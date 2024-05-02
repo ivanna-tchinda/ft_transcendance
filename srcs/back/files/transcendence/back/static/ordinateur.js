@@ -6,6 +6,9 @@ var anim;
 const select = document.querySelector("select");
 let start_game;
 let stop_game;
+let joueur1 = document.getElementById("joueur1");
+let joueur2 = document.getElementById("joueur1");
+let ord = document.getElementById("title");
 
 const PLAYER_HEIGHT3 = 100;
 const PLAYER_WIDTH3 = 5;
@@ -16,33 +19,34 @@ setTimeout(function() {
     canvas3 = document.getElementById("canvas2");
     start_game = document.getElementById("start-game");
     stop_game = document.getElementById("stop-game");
-    if (btn_start && canvas3 && select && start_game && stop_game) {
-        translateGame(select.value);
+    joueur1 = document.getElementById("joueur1");
+    joueur2 = document.getElementById("joueur2");
+    ord = document.getElementById("title");
+    console.log("ord");
+    if (btn_start && canvas3 && ord && select && start_game && stop_game && joueur1 && joueur2) {
+        translateGame(lng);
         startGame();
     }
 }, 1000);
 
 select.addEventListener("change", (event) => {
+    lng = event.target.value;
     translateGame(event.target.value);
 })
 
 function translateGame(language){
-
+    let trslt = translations.fr;
     if(language == "fr")
-    {
-        start_game.innerText = translations.fr.start;
-        stop_game.innerText = translations.fr.stop;
-    }
-    else if(language == "en")
-    {
-        start_game.innerText = translations.en.start;
-        stop_game.innerText = translations.en.stop;
-    }
-    else if(language == "es")
-    {
-        start_game.innerText = translations.es.start;
-        stop_game.innerText = translations.es.stop;
-    }
+        trslt = translations.fr;
+    else if (language == "en")
+        trslt = translations.en;
+    else if (language == "es")
+        trslt = translations.es;
+    start_game.innerText = trslt.start;
+    stop_game.innerText = trslt.stop;
+    joueur1.innerText = trslt.joueur1;
+    joueur2.innerText = trslt.joueur2;
+    ord.innerText = trslt.ord_title;
 }
 
 function startGame() {
