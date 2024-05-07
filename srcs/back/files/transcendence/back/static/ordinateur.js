@@ -1,18 +1,3 @@
-'use strict';
-var canvas3;
-var btn_start;
-var game;
-var anim;
-const select = document.querySelector("select");
-let start_game;
-let stop_game;
-let joueur1 = document.getElementById("joueur1");
-let joueur2 = document.getElementById("joueur1");
-let ord = document.getElementById("title");
-
-const PLAYER_HEIGHT3 = 100;
-const PLAYER_WIDTH3 = 5;
-const MAX_SPEED3 = 12;
 
 setTimeout(function() {
     btn_start = document.getElementById("start-game");
@@ -92,8 +77,8 @@ function drawCanvas() {
 
     // Draw players
     context.fillStyle = 'white';
-    context.fillRect(0, game.player.y, PLAYER_WIDTH3, PLAYER_HEIGHT3);
-    context.fillRect(canvas3.width - PLAYER_WIDTH3, game.computer.y, PLAYER_WIDTH3, PLAYER_HEIGHT3);
+    context.fillRect(0, game.player.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+    context.fillRect(canvas3.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
     // Draw ball
     context.beginPath();
@@ -103,8 +88,8 @@ function drawCanvas() {
 }
 
 function changeDirection(playerPosition) {
-    var impact = game.ball.y - playerPosition - PLAYER_HEIGHT3 / 2;
-    var ratio = 100 / (PLAYER_HEIGHT3 / 2);
+    var impact = game.ball.y - playerPosition - PLAYER_HEIGHT / 2;
+    var ratio = 100 / (PLAYER_HEIGHT / 2);
 
     // Get a value between 0 and 10
     game.ball.speed.y = Math.round(impact * ratio / 10);
@@ -153,9 +138,9 @@ function ballMove() {
         game.ball.speed.y *= -1;
     }
 
-    if (game.ball.x > canvas3.width - PLAYER_WIDTH3) {
+    if (game.ball.x > canvas3.width - PLAYER_WIDTH) {
         collide(game.computer);
-    } else if (game.ball.x < PLAYER_WIDTH3) {
+    } else if (game.ball.x < PLAYER_WIDTH) {
         collide(game.player);
     }
 
@@ -176,8 +161,8 @@ function reset() {
     // Set ball and players to the center
     game.ball.x = canvas3.width / 2;
     game.ball.y = canvas3.height / 2;
-    game.player.y = canvas3.height / 2 - PLAYER_HEIGHT3 / 2;
-    game.computer.y = canvas3.height / 2 - PLAYER_HEIGHT3 / 2;
+    game.player.y = canvas3.height / 2 - PLAYER_HEIGHT / 2;
+    game.computer.y = canvas3.height / 2 - PLAYER_HEIGHT / 2;
 
     // Reset speed
     game.ball.speed.x = 3;

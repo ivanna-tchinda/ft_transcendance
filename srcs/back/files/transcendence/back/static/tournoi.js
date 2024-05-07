@@ -1,26 +1,10 @@
-let id = 0;
-let nb_games = 0;
-let launchTornament;
-let username;
-let btn_participate;
-let loginForm;
-let playersArr2;
-var game;
-var anim;
-let canvas2;
-var playerName1;
-var playerName2;
-let nextbtn;
-let it = 0;
-let winnersArr = [];
-
-let titleOrd = document.getElementById("title-tournoi");
-let titlePart = document.getElementById("title-part");
-let loginPlayer = document.getElementById("login-player");
-const PLAYER_HEIGHT2 = 100;
-const PLAYER_WIDTH2 = 5;
-const MAX_SPEED2 = 12;
-
+titlePart = document.getElementById("title-part");
+loginPlayer = document.getElementById("login-player");
+titleOrd = document.getElementById("title-tournoi");
+nb_games = 0;
+id = 0;
+it = 0;
+winnersArr = [];
 setTimeout(function() {
   launchTornament = document.getElementById("btn-launch-game");
   btn_participate = document.getElementById("btn-participer");
@@ -29,7 +13,6 @@ setTimeout(function() {
   titleOrd = document.getElementById("title-tournoi");
   titlePart = document.getElementById("title-part");
   loginPlayer = document.getElementById("login-player");
-  console.log("languageSelect.value");
   setLanguageOrd(languageSelect.value);
   if (launchTornament && username && btn_participate && titleOrd && titlePart && loginPlayer)  {
     btn_participate.addEventListener('click', function(e) {
@@ -354,8 +337,8 @@ function draw() {
 
     // Draw players
     context.fillStyle = 'white';
-    context.fillRect(0, game.player.y, PLAYER_WIDTH2, PLAYER_HEIGHT2);
-    context.fillRect(canvas2.width - PLAYER_WIDTH2, game.computer.y, PLAYER_WIDTH2, PLAYER_HEIGHT2);
+    context.fillRect(0, game.player.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+    context.fillRect(canvas2.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
     // Draw ball
     context.beginPath();
@@ -365,8 +348,8 @@ function draw() {
 }
 
 function changeDirection(playerPosition) {
-    var impact = game.ball.y - playerPosition - PLAYER_HEIGHT2 / 2;
-    var ratio = 100 / (PLAYER_HEIGHT2 / 2);
+    var impact = game.ball.y - playerPosition - PLAYER_HEIGHT / 2;
+    var ratio = 100 / (PLAYER_HEIGHT / 2);
 
     // Get a value between 0 and 10
     game.ball.speed.y = Math.round(impact * ratio / 10);
@@ -375,7 +358,7 @@ function changeDirection(playerPosition) {
 function playerMove(event) 
 {
     canvas2 = document.getElementById("canvas3");
-    if(event.code == 'ArrowDown' && game.player.y < canvas2.height - PLAYER_HEIGHT2)
+    if(event.code == 'ArrowDown' && game.player.y < canvas2.height - PLAYER_HEIGHT)
         game.player.y += 20;
     else if(event.code == 'ArrowUp' && game.player.y > 0)
         game.player.y -= 20;
@@ -385,7 +368,7 @@ function playerMove(event)
 function player2Move(event) 
 {
   canvas2 = document.getElementById("canvas");
-    if(event.code == 'KeyS' && game.computer.y < canvas2.height - PLAYER_HEIGHT2)
+    if(event.code == 'KeyS' && game.computer.y < canvas2.height - PLAYER_HEIGHT)
         game.computer.y += 20;
     else if(event.code == 'KeyW' && game.computer.y > 0)
         game.computer.y -= 20;
@@ -394,7 +377,7 @@ function player2Move(event)
 
 function collide(player) {
     // The player does not hit the ball
-    if (game.ball.y < player.y || game.ball.y > player.y + PLAYER_HEIGHT2) {
+    if (game.ball.y < player.y || game.ball.y > player.y + PLAYER_HEIGHT) {
         if (player == game.player) {
             game.computer.score++;
             document.querySelector('#computer-score').textContent = game.computer.score;
@@ -423,9 +406,9 @@ function ballMove() {
         game.ball.speed.y *= -1;
     }
 
-    if (game.ball.x > canvas2.width - PLAYER_WIDTH2) {
+    if (game.ball.x > canvas2.width - PLAYER_WIDTH) {
         collide(game.computer);
-    } else if (game.ball.x < PLAYER_WIDTH2) {
+    } else if (game.ball.x < PLAYER_WIDTH) {
         collide(game.player);
     }
 
@@ -452,8 +435,8 @@ function reset() {
   // Set ball and players to the center
   game.ball.x = canvas2.width / 2;
   game.ball.y = canvas2.height / 2;
-  game.player.y = canvas2.height / 2 - PLAYER_HEIGHT2 / 2;
-  game.computer.y = canvas2.height / 2 - PLAYER_HEIGHT2 / 2;
+  game.player.y = canvas2.height / 2 - PLAYER_HEIGHT / 2;
+  game.computer.y = canvas2.height / 2 - PLAYER_HEIGHT / 2;
   // Reset speed
   game.ball.speed.x = 3;
   game.ball.speed.y = Math.random() * 3;
@@ -483,25 +466,3 @@ languageSelect.addEventListener("change", (event) => {
   lng = event.target.value;
   setLanguage(event.target.value);
 })
-
-const setLanguageOrd = (language) => {
-  let trslt = translations.fr;
-  if(language == "fr")
-      trslt = translations.fr;
-  else if (language == "en")
-      trslt = translations.en;
-  else if (language == "es")
-      trslt = translations.es;
-  home_elt.innerText = trslt.home;
-  match_elt.innerText = trslt.match;
-  ai_elt.innerText = trslt.ia_match;
-  tournament_elt.innerText = trslt.tournament;
-  title_elt.innerText = trslt.title;
-  parag_elt.innerText = trslt.parag;
-  brand.innerText = trslt.brand;
-  titleOrd.innerText = trslt.title_tournoi;
-  titlePart.innerText = trslt.title_part;
-  loginPlayer.innerText = trslt.loginPlayer;
-  btn_participate.innerText = trslt.btn_part;
-  launchTornament.innerText = trslt.btn_launch;
-}

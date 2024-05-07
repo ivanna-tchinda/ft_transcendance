@@ -1,6 +1,82 @@
 // let selectedLanguage = localStorage.getItem("favLanguage");
 let lng;
+const select = document.querySelector("select");
 let languageSelect = document.querySelector("select");
+let joueur1 = document.getElementById("joueur1");
+let joueur2 = document.getElementById("joueur2");
+let btn1 = document.getElementById("start-game");
+let btn2 = document.getElementById("stop-game");
+let canvas3;
+let canvas2;
+let btn_start;
+let game;
+let anim;
+let playersArr2;
+let launchTornament;
+let username;
+let btn_participate;
+var playerName1;
+var playerName2;
+let nb_games;
+let nextbtn;
+let it;
+let winnersArr;
+let titleOrd;
+let id;
+let loginPlayer;
+let titlePart;
+let ord;
+const PLAYER_HEIGHT = 100;
+const PLAYER_WIDTH = 5;
+const MAX_SPEED = 12;
+const setLanguageJeu = (language) => {
+    let trslt = translations.fr;
+    if(language == "fr")
+        trslt = translations.fr;
+    else if (language == "en")
+        trslt = translations.en;
+    else if (language == "es")
+        trslt = translations.es;
+    home_elt.innerText = trslt.home;
+    match_elt.innerText = trslt.match;
+    ai_elt.innerText = trslt.ia_match;
+    tournament_elt.innerText = trslt.tournament;
+    title_elt.innerText = trslt.title;
+    parag_elt.innerText = trslt.parag;
+    brand.innerText = trslt.brand;
+    joueur1.innerText = trslt.joueur1;
+    joueur2.innerText = trslt.joueur2;
+    btn1.innerText = trslt.start;
+    btn2.innerText = trslt.stop;
+}
+
+
+const setLanguageOrd = (language) => {
+    titleOrd = document.getElementById("title-tournoi");
+    let trslt = translations.fr;
+    if(language == "fr")
+        trslt = translations.fr;
+    else if (language == "en")
+        trslt = translations.en;
+    else if (language == "es")
+        trslt = translations.es;
+    home_elt.innerText = trslt.home;
+    match_elt.innerText = trslt.match;
+    ai_elt.innerText = trslt.ia_match;
+    tournament_elt.innerText = trslt.tournament;
+    title_elt.innerText = trslt.title;
+    parag_elt.innerText = trslt.parag;
+    brand.innerText = trslt.brand;
+    titleOrd.innerText = trslt.title_tournoi;
+    titlePart.innerText = trslt.title_part;
+    loginPlayer.innerText = trslt.loginPlayer;
+    btn_participate.innerText = trslt.btn_part;
+    launchTornament.innerText = trslt.btn_launch;
+  }
+
+////////////////////////END OF DECLARATIONS////////////////////
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("index");
@@ -15,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetchScript("jeu.js");
     });
     document.getElementById('ai_link').addEventListener("click", function(){
+    console.log("demande sur ordinateur")
         fetch('/ordinateur/')
         .then(response => response.text())
         .then(text => {
@@ -43,14 +120,12 @@ document.addEventListener("DOMContentLoaded", function() {
 function fetchScript(value) {
     var script = document.getElementById('extra_script_js');
     if (script)
-        script.src = "/static/" + value;
-    else {
-        script = document.createElement('script');
-        script.src = "/static/" + value;
-        script.id = 'extra_script_js';
-        var index_script = document.getElementById('script_js');
-        index_script.parentNode.insertBefore(script, index_script.nextSibling);
-    }
+        script.remove();
+    script = document.createElement('script');
+    script.src = "/static/" + value;
+    script.id = 'extra_script_js';
+    var index_script = document.getElementById('script_js');
+    index_script.parentNode.insertBefore(script, index_script.nextSibling);
 }
 
 

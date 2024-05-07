@@ -1,17 +1,3 @@
-var btn_start;
-var canvas;
-var game;
-var anim;
-let joueur1 = document.getElementById("joueur1");
-let joueur2 = document.getElementById("joueur2");
-let btn1 = document.getElementById("start-game");
-let btn2 = document.getElementById("stop-game");
-
-const PLAYER_HEIGHT = 100;
-const PLAYER_WIDTH = 5;
-const MAX_SPEED = 12;
-
-
 setTimeout(function() {
     btn_start = document.getElementById("start-game");
     canvas = document.getElementById("canvas");
@@ -25,7 +11,6 @@ setTimeout(function() {
         startCanva();
     }
 }, 1000);
-
 
 languageSelect.addEventListener("change", (event) => {
     lng = event.target.value;
@@ -59,8 +44,9 @@ function startCanva() {
 
 function draw() {
     canvas = document.getElementById("canvas");
+    if(!canvas)
+        return
     var context = canvas.getContext('2d');
-
     // Draw field
     context.fillStyle = 'black';
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -139,6 +125,8 @@ function collide(player) {
 
 function ballMove() {
     const canvas = document.getElementById("canvas");
+    if(!canvas)
+        return
     // Rebounds on top and bottom
     if (game.ball.y > canvas.height || game.ball.y < 0) {
         game.ball.speed.y *= -1;
@@ -211,23 +199,3 @@ function stop() {
 
 //////////////////TRANSLATION//////////////////////
 
-const setLanguageJeu = (language) => {
-    let trslt = translations.fr;
-    if(language == "fr")
-        trslt = translations.fr;
-    else if (language == "en")
-        trslt = translations.en;
-    else if (language == "es")
-        trslt = translations.es;
-    home_elt.innerText = trslt.home;
-    match_elt.innerText = trslt.match;
-    ai_elt.innerText = trslt.ia_match;
-    tournament_elt.innerText = trslt.tournament;
-    title_elt.innerText = trslt.title;
-    parag_elt.innerText = trslt.parag;
-    brand.innerText = trslt.brand;
-    joueur1.innerText = trslt.joueur1;
-    joueur2.innerText = trslt.joueur2;
-    btn1.innerText = trslt.start;
-    btn2.innerText = trslt.stop;
-}
