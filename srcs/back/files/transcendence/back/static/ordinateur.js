@@ -6,10 +6,10 @@ setTimeout(function() {
     stop_game = document.getElementById("stop-game");
     joueur1 = document.getElementById("joueur1");
     joueur2 = document.getElementById("joueur2");
-    ord = document.getElementById("title");
-    console.log("ord");
-    if (btn_start && canvas3 && ord && select && start_game && stop_game && joueur1 && joueur2) {
-        translateGame(lng);
+    titleOrd = document.getElementById("title-ord");
+    if (btn_start && canvas3 && titleOrd && select && start_game && stop_game && joueur1 && joueur2) {
+        setLanguageOrd(languageSelect.value);
+        // translateGame(lng);
         startGame();
     }
 }, 1000);
@@ -19,20 +19,19 @@ select.addEventListener("change", (event) => {
     translateGame(event.target.value);
 })
 
-function translateGame(language){
-    let trslt = translations.fr;
-    if(language == "fr")
-        trslt = translations.fr;
-    else if (language == "en")
-        trslt = translations.en;
-    else if (language == "es")
-        trslt = translations.es;
-    start_game.innerText = trslt.start;
-    stop_game.innerText = trslt.stop;
-    joueur1.innerText = trslt.joueur1;
-    joueur2.innerText = trslt.joueur2;
-    ord.innerText = trslt.ord_title;
-}
+// function translateGame(language){
+//     let trslt = translations.fr;
+//     if(language == "fr")
+//         trslt = translations.fr;
+//     else if (language == "en")
+//         trslt = translations.en;
+//     else if (language == "es")
+//         trslt = translations.es;
+//     start_game.innerText = trslt.start;
+//     stop_game.innerText = trslt.stop;
+//     joueur1.innerText = trslt.joueur1;
+//     joueur2.innerText = trslt.joueur2;
+// }
 
 function startGame() {
     game = {
@@ -97,7 +96,7 @@ function changeDirection(playerPosition) {
 
 function playerMove(event) 
 {
-    if(event.code == 'ArrowDown' && game.player.y < canvas3.height - PLAYER_HEIGHT3)
+    if(event.code == 'ArrowDown' && game.player.y < canvas3.height - PLAYER_HEIGHT)
         game.player.y += 20;
     else if(event.code == 'ArrowUp' && game.player.y > 0)
         game.player.y -= 20;
@@ -109,7 +108,7 @@ function computerMove() {
 
 function collide(player) {
     // The player does not hit the ball
-    if (game.ball.y < player.y || game.ball.y > player.y + PLAYER_HEIGHT3) {
+    if (game.ball.y < player.y || game.ball.y > player.y + PLAYER_HEIGHT) {
         reset();
 
         // Update score
@@ -126,7 +125,7 @@ function collide(player) {
         changeDirection(player.y);
 
         // Increase speed if it has not reached max speed
-        if (Math.abs(game.ball.speed.x) < MAX_SPEED3) {
+        if (Math.abs(game.ball.speed.x) < MAX_SPEED) {
             game.ball.speed.x *= 1.2;
         }
     }

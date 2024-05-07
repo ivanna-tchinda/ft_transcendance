@@ -1,20 +1,18 @@
-titlePart = document.getElementById("title-part");
-loginPlayer = document.getElementById("login-player");
-titleOrd = document.getElementById("title-tournoi");
 nb_games = 0;
 id = 0;
 it = 0;
 winnersArr = [];
+
 setTimeout(function() {
   launchTornament = document.getElementById("btn-launch-game");
   btn_participate = document.getElementById("btn-participer");
   username = document.getElementById("username");
   languageSelect = document.querySelector("select");
-  titleOrd = document.getElementById("title-tournoi");
   titlePart = document.getElementById("title-part");
   loginPlayer = document.getElementById("login-player");
-  setLanguageOrd(languageSelect.value);
-  if (launchTornament && username && btn_participate && titleOrd && titlePart && loginPlayer)  {
+  titleTour = document.getElementById("title-tournoi");
+  if (launchTornament && titleTour && username && btn_participate && titleTour && titlePart && loginPlayer)  {
+    setLanguageTour(languageSelect.value);
     btn_participate.addEventListener('click', function(e) {
       e.preventDefault();
       participateTournament(e);
@@ -63,7 +61,6 @@ function launchTourn(e){
       playersArr.splice(playersArr.indexOf(player1), 1);
       var player2 = generatePlayer(playersArr, id);
       playersArr.splice(playersArr.indexOf(player2), 1);
-      console.log(document.getElementById("joueur_" + player1).innerHTML + " is going to confront " + document.getElementById("joueur_" + player2).innerHTML);
       playersArr2.set("player" + nb_games + "_0", document.getElementById("joueur_" + player1).innerHTML);
       playersArr2.set("player" + nb_games + "_1", document.getElementById("joueur_" + player2).innerHTML);
       nb_games++;
@@ -391,7 +388,7 @@ function collide(player) {
         changeDirection(player.y);
 
         // Increase speed if it has not reached max speed
-        if (Math.abs(game.ball.speed.x) < MAX_SPEED2) {
+        if (Math.abs(game.ball.speed.x) < MAX_SPEED) {
             game.ball.speed.x *= 1.2;
         }
     }

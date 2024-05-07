@@ -22,9 +22,11 @@ let nextbtn;
 let it;
 let winnersArr;
 let titleOrd;
+let titleTour;
+let start_game;
 let id;
-let loginPlayer;
-let titlePart;
+let loginPlayer = document.getElementById("login-player");;
+let titlePart = document.getElementById("title-part");
 let ord;
 const PLAYER_HEIGHT = 100;
 const PLAYER_WIDTH = 5;
@@ -52,7 +54,7 @@ const setLanguageJeu = (language) => {
 
 
 const setLanguageOrd = (language) => {
-    titleOrd = document.getElementById("title-tournoi");
+    titleOrd = document.getElementById("title-ord");
     let trslt = translations.fr;
     if(language == "fr")
         trslt = translations.fr;
@@ -67,7 +69,25 @@ const setLanguageOrd = (language) => {
     title_elt.innerText = trslt.title;
     parag_elt.innerText = trslt.parag;
     brand.innerText = trslt.brand;
-    titleOrd.innerText = trslt.title_tournoi;
+    titleOrd.innerText = trslt.ord_title;
+  }
+
+  const setLanguageTour = (language) => {
+    let trslt = translations.fr;
+    if(language == "fr")
+        trslt = translations.fr;
+    else if (language == "en")
+        trslt = translations.en;
+    else if (language == "es")
+        trslt = translations.es;
+    home_elt.innerText = trslt.home;
+    match_elt.innerText = trslt.match;
+    ai_elt.innerText = trslt.ia_match;
+    tournament_elt.innerText = trslt.tournament;
+    title_elt.innerText = trslt.title;
+    parag_elt.innerText = trslt.parag;
+    brand.innerText = trslt.brand;
+    titleTour.innerText = trslt.title_tournoi;
     titlePart.innerText = trslt.title_part;
     loginPlayer.innerText = trslt.loginPlayer;
     btn_participate.innerText = trslt.btn_part;
@@ -79,9 +99,15 @@ const setLanguageOrd = (language) => {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("index");
     languageSelect.value = document.cookie.substring(9);
     setLanguage(languageSelect.value);
+    document.getElementById('home-elt').addEventListener("click", function(){
+        fetch('home/')
+        .then(response => response.text())
+        .then(text => {
+            document.querySelector('#content').innerHTML = text;
+        });
+    });
     document.getElementById('match_link').addEventListener("click", function(){
         fetch('/jeu/')
         .then(response => response.text())
@@ -91,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function() {
         fetchScript("jeu.js");
     });
     document.getElementById('ai_link').addEventListener("click", function(){
-    console.log("demande sur ordinateur")
         fetch('/ordinateur/')
         .then(response => response.text())
         .then(text => {

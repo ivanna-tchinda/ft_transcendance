@@ -15,7 +15,6 @@ setTimeout(function() {
     sett_title = document.getElementsByTagName("h3");
     sett_h2 = document.getElementsByTagName("h5");
     lang = document.getElementsByTagName("label");
-    console.log("settings");
     if (language_opts && save_language && settings && sett_title && sett_h2 && lang) {
         for (const language_opt of language_opts) {
             language_opt.removeAttribute("checked");
@@ -38,7 +37,6 @@ setTimeout(function() {
                 }
             }
             // remove cookie
-            console.log("cookie:"+document.cookie.substring(9));
             setLanguage2(document.cookie.substring(9));
         })
     }

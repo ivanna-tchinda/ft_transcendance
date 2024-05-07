@@ -13,6 +13,9 @@ from .forms import CustomUserCreationForm
 def index(request):
     return render(request, "index.html")
 
+def home(request):
+    return render(request, "home.html")
+
 def jeu(request):
     return render(request, "jeu.html")
 

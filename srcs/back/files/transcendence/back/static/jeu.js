@@ -5,7 +5,6 @@ setTimeout(function() {
     joueur2 = document.getElementById("joueur2");
     btn1 = document.getElementById("start-game");
     btn2 = document.getElementById("stop-game");
-    console.log("jeu");
     if (btn_start && canvas && joueur1 && joueur2 && btn1 && btn2) {
         setLanguageJeu(lng);
         startCanva();
